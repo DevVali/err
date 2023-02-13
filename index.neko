@@ -1,0 +1,45 @@
+@ Init the lib
+
+public->init = object!{
+    version: "1.0.0"
+};
+
+@ Lib src
+
+public->new = dyn (msg, log) {
+    neko err_object = object!{
+        name: "Error",
+        message: msg,
+        show_log: log
+    };
+
+    @ Check if the err_object->message is a text
+    if (typeof(err_object->message) != "text") {
+        log("typeof(text) error");
+        return;
+    };
+
+    @ Check if the err_object->show_log is a bool
+    if (typeof(err_object->show_log) != "bool") {
+        log("typeof(bool) error");
+        return;
+    };
+
+    @ Output
+    if (err_object->show_log == true) {
+        @ err_object->show_log == true
+        log("err->new(...)");
+        log("^");
+        log("Error:", err_object->message);
+        log();
+        log("Err", err_init->version);
+    } else if (err_object->show_log == false) {
+        @ err_object->show_log == false
+        log("Error:", err_object->message);
+    } else {
+        @ Fatal error
+        log("Fatal error at Err", err_init->version);
+    };
+
+    return;
+};
